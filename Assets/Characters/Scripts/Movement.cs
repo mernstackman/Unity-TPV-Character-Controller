@@ -43,14 +43,15 @@ public class Movement : MonoBehaviour
         // Kalau shift key dipencet maka character akan berlari
         doRun = Input.GetKey(KeyCode.LeftShift);
         doRunNinja = Input.GetKey(KeyCode.Tab);
-        applyGravity();
-        // Instantiate/ call the MoveChar function
-        MoveChar();
 
-    
+        applyGravity();
+        MoveChar();    
     }
 
-
+    /*
+    Use custom gravity in an attempt to fix the unstable isGrounded (ground check feature) provided by Unity
+    Character Controller component.
+    */
     private void applyGravity() {
         if(charGrounded() && Velocity < 0) {
             Velocity = -1.0f;
@@ -75,10 +76,9 @@ public class Movement : MonoBehaviour
         characterController.Move(moveVector * AppliedSpeed() * Time.deltaTime);
 
         // Use apply gravity instead
-         // transform.position = new Vector3(transform.position.x, y, transform.position.z);
-        // transform.position = moveVector;
+         // transform.position = new Vector3(transform.position.x, y, transform.position.z);    
 
-        Debug.Log(charGrounded() ); // create custom ground check instead
+        Debug.Log(charGrounded() ); // This is now working well at least in this project
         
         if( x == 0 && z == 0) {
             locoBlendSpeed = 0f;
@@ -92,7 +92,7 @@ public class Movement : MonoBehaviour
 
         animator.SetFloat("Speed", locoBlendSpeed, animSpeed, Time.deltaTime);
 
-        rotation = new Vector3(x, 0, z);
+        rotation = new Vector3(x, 0, z); // Create new vector3 value for rotation to prevent y rotation on the character
         if(rotation != Vector3.zero)
             Rotation(rotation);
     }
@@ -113,8 +113,7 @@ public class Movement : MonoBehaviour
             return ninjaSpeed;
         } else {
             return walkSpeed;
-        }
-       
+        }       
     }
 
     private bool charGrounded() => characterController.isGrounded;

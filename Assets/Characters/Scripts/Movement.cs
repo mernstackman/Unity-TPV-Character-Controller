@@ -7,6 +7,13 @@ public class Movement : MonoBehaviour
     CharacterController characterController;
     Animator animator;
 
+#region Direction
+    float directionX;
+    float directionY;
+    float directionZ;
+#endregion
+
+
 #region: Horizontal Speeds
     public float walkSpeed;
     public float runSpeed;
@@ -65,14 +72,15 @@ public class Movement : MonoBehaviour
     }
 
     private void MoveChar() {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        // float y = 0f;
-
+ /*        directionX = Input.GetAxis("Horizontal");
+       directionZ = Input.GetAxis("Vertical"); */
+        // directionY = 0f;
+        directionX = 0;
+        directionZ= 1;
         // moveVector = new Vector3(x,y,z);
-        moveVector.x = x;
-        moveVector.z = z;
-       
+        moveVector.x = directionX;
+        moveVector.z = directionZ;
+
         characterController.Move(moveVector * AppliedSpeed() * Time.deltaTime);
 
         // Use apply gravity instead
@@ -80,7 +88,7 @@ public class Movement : MonoBehaviour
 
         Debug.Log(charGrounded() ); // This is now working well at least in this project
         
-        if( x == 0 && z == 0) {
+        if( directionX == 0 && directionZ == 0) {
             locoBlendSpeed = 0f;
         } else if(doRun) {
             locoBlendSpeed = 1f;
@@ -92,7 +100,7 @@ public class Movement : MonoBehaviour
 
         animator.SetFloat("Speed", locoBlendSpeed, animSpeed, Time.deltaTime);
 
-        rotation = new Vector3(x, 0, z); // Create new vector3 value for rotation to prevent y rotation on the character
+        rotation = new Vector3(directionX, 0, directionZ); // Create new vector3 value for rotation to prevent y rotation on the character
         if(rotation != Vector3.zero)
             Rotation(rotation);
     }

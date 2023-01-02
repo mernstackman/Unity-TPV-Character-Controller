@@ -8,9 +8,9 @@ public class Movement : MonoBehaviour
     Animator animator;
 
 #region Direction
-    float directionX;
-    float directionY;
-    float directionZ;
+    public float directionX;
+    public float directionY;
+    public float directionZ;
 #endregion
 
 
@@ -25,9 +25,9 @@ public class Movement : MonoBehaviour
 
 
 #region Jump
-    public float jumpHeight = 1.0f;
+    public float jumpHeight;
     public float gravity = -9.81f;
-    private float Velocity;
+    // private float Velocity;
     private Vector3 moveVector;
 
 #endregion
@@ -60,23 +60,22 @@ public class Movement : MonoBehaviour
     Character Controller component.
     */
     private void applyGravity() {
-        if(charGrounded() && Velocity < 0) {
-            Velocity = -1.0f;
+        if(charGrounded() && directionY < 0) {
+            directionY = -1.0f;
         }
         else
         {
-            Velocity += gravity * Time.deltaTime;
+            directionY += gravity * Time.deltaTime;
         }
 
-        moveVector.y = Velocity;
+        moveVector.y = directionY;
     }
 
     private void MoveChar() {
  /*        directionX = Input.GetAxis("Horizontal");
        directionZ = Input.GetAxis("Vertical"); */
         // directionY = 0f;
-        directionX = 0;
-        directionZ= 1;
+;
         // moveVector = new Vector3(x,y,z);
         moveVector.x = directionX;
         moveVector.z = directionZ;
